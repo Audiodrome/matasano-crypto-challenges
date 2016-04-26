@@ -1,20 +1,22 @@
 import binascii
 import base64
+import sys
 
-hex = "1c0111001f010100061a024b53535009181c"
-xor_against = "686974207468652062756c6c277320657965"
+str1 = "1c0111001f010100061a024b53535009181c"
+str2 = "686974207468652062756c6c277320657965"
 
-unHex = binascii.unhexlify(hex)
-#unHex2 = binascii.unhexlify(xor_against)
+s1 = binascii.unhexlify(str1)
+s2 = binascii.unhexlify(str2)
 
-print type(unHex)
+s1 = int.from_bytes(s1, byteorder = sys.byteorder)
+s2 = int.from_bytes(s2, byteorder = sys.byteorder)
 
+xor_d = s1 ^ s2
 
-#xor_result = (unHex ^ xor_against)
+xor_d = xor_d.to_bytes((xor_d.bit_length() // 8) + 1,
+                       byteorder = sys.byteorder)
 
-#print xor_result
+result = base64.b16encode(xor_d)
 
-#print (unHex^xor_against)
-
-
+print (result)
 
